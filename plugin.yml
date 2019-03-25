@@ -1,0 +1,8 @@
+name: AntiVoid
+main: BreathTakinglyBinary\AntiVoid\AntiVoid
+version: 1.0.0
+api: 3.0.0
+load: POSTWORLD
+author: FiberglassCivic
+description: A simple plugin to save players from falling into the void.
+website: https://github.com/BreathTakinglyBinary/AntiVoid
