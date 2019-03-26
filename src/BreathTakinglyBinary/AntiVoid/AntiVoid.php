@@ -12,6 +12,8 @@ use pocketmine\plugin\PluginBase;
 class AntiVoid extends PluginBase implements Listener{
 
 	public function onEnable() : void{
+		@mkdir($this->getDataFolder());
+		$this->saveResource("config.yml");
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
@@ -20,10 +22,12 @@ class AntiVoid extends PluginBase implements Listener{
 		if(!$entity instanceof Player){
 			return;
 		}
-
+		$level = $entity->getLevel()->getName();
 		if($event->getCause() === EntityDamageEvent::CAUSE_VOID){
-			$entity->teleport($entity->getLevel()->getSafeSpawn());
-			$event->setCancelled();
+			if(in_array($level, $this->getConfig()->get("enabled-worlds", [])) and !in_array($level, $this->getConfig()->get("disabled-worlds", [])) or $this->getConfig()->get("enabled-worlds") != null){
+				$entity->teleport($entity->getLevel()->getSafeSpawn());
+				$event->setCancelled();
+			}
 		}
 	}
 }
