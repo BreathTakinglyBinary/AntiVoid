@@ -11,7 +11,15 @@ use pocketmine\plugin\PluginBase;
 
 class AntiVoid extends PluginBase implements Listener{
 
+	private $config;
+
 	public function onEnable() : void{
+		if(!is_dir($this->getDataFolder())){
+			@mkdir($this->getDataFolder());
+		}
+
+		$this->saveDefaultConfig();
+		$this->config = $this->getConfig()->getAll();
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
@@ -21,9 +29,18 @@ class AntiVoid extends PluginBase implements Listener{
 			return;
 		}
 
+		$level = $entity->getLevel()->getFolderName();
 		if($event->getCause() === EntityDamageEvent::CAUSE_VOID){
-			$entity->teleport($entity->getLevel()->getSafeSpawn());
-			$event->setCancelled();
+			if(empty($this->config["enabled-worlds"]) and empty($this->config["disabled-worlds"])){
+				$entity->teleport($entity->getLevel()->getSafeSpawn());
+				$event->setCancelled();
+			} elseif(in_array($level, $this->config["enabled-worlds"]) and !in_array($level, $this->config["disabled-worlds"])){
+				$entity->teleport($entity->getLevel()->getSafeSpawn());
+				$event->setCancelled();
+			} elseif(in_array($level, $this->config["enabled-worlds"]) and !(in_array($level, $this->config["enabled-worlds"]) and in_array($level, $this->config["disabled-worlds"]))){
+				$entity->teleport($entity->getLevel()->getSafeSpawn());
+				$event->setCancelled();
+			}
 		}
 	}
 }

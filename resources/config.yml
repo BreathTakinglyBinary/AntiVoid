@@ -1,0 +1,6 @@
+---
+# Use the worlds folder name, and it is case sensitive
+
+enabled-worlds: []
+
+disabled-worlds: []
