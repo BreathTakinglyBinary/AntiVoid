@@ -23,7 +23,7 @@ class AntiVoid extends PluginBase implements Listener{
 
 	public function onEnable() : void{
 		$this->enabledWorlds = $this->getConfig()->get("enabled-worlds");
-		$this->enabledWorlds = $this->getConfig()->get("disabled-worlds");
+		$this->disabledWorlds = $this->getConfig()->get("disabled-worlds");
 		$this->useDefaultWorld = $this->getConfig()->get("use-default-world");
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
