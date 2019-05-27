@@ -4,3 +4,9 @@
 enabled-worlds: []
 
 disabled-worlds: []
+
+# If set to true, this will teleport players to the default
+# world for the server.  Otherwise, the player will be sent
+# back to the default spawn point for the world they are in.
+
+use-default-world: false
