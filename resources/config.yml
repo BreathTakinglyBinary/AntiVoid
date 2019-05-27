@@ -1,5 +1,10 @@
 ---
-# Use the worlds folder name, and it is case sensitive
+# World specific settings must use the world folder name.
+# The names are case sensitive.  Disabled worlds will have
+# priority over enabled worlds.  This means that if a world
+# is listed in enabled and disabled, it will be considered
+# disabled.  If any worlds are added to the enabled group
+# then any world that is not in that group will be disabled.
 
 enabled-worlds: []
 
