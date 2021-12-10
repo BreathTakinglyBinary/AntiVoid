@@ -6,9 +6,9 @@ namespace BreathTakinglyBinary\AntiVoid;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\Listener;
-use pocketmine\level\Level;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
+use pocketmine\world\World;
 
 class AntiVoid extends PluginBase implements Listener{
 
@@ -39,23 +39,23 @@ class AntiVoid extends PluginBase implements Listener{
 			return;
 		}
 		if($event->getCause() === EntityDamageEvent::CAUSE_VOID){
-			if($this->saveFromVoidAllowed($entity->getLevel())){
+			if($this->saveFromVoidAllowed($entity->getWorld())){
 				$this->savePlayerFromVoid($entity);
-				$event->setCancelled();
+				$event->cancel();
 			}
 		}
 	}
 
 	/**
-	 * @param Level $level
+	 * @param World $world
 	 *
 	 * @return bool
 	 */
-	private function saveFromVoidAllowed(Level $level) : bool {
+	private function saveFromVoidAllowed(World $world) : bool {
 		if(empty($this->enabledWorlds) and empty($this->disabledWorlds)){
 			return true;
 		}
-		$levelFolderName = $level->getFolderName();
+		$levelFolderName = $world->getFolderName();
 
 		if(in_array($levelFolderName, $this->disabledWorlds)){
 			return false;
@@ -66,6 +66,7 @@ class AntiVoid extends PluginBase implements Listener{
 		if(!empty($this->enabledWorlds) and !in_array($levelFolderName, $this->enabledWorlds)){
 			return false;
 		}
+
 		return true;
 	}
 
@@ -74,9 +75,9 @@ class AntiVoid extends PluginBase implements Listener{
 	 */
 	private function savePlayerFromVoid(Player $player) : void{
 		if($this->useDefaultWorld){
-			$position = $player->getServer()->getDefaultLevel()->getSpawnLocation();
+			$position = $player->getServer()->getWorldManager()->getDefaultWorld()->getSpawnLocation();
 		} else {
-			$position = $player->getLevel()->getSpawnLocation();
+			$position = $player->getWorld()->getSpawnLocation();
 		}
 		$player->teleport($position);
 	}
