@@ -13,13 +13,12 @@ use pocketmine\world\World;
 class AntiVoid extends PluginBase implements Listener{
 
 	/** @var string[] */
-	private $enabledWorlds = [];
+	private array $enabledWorlds = [];
 
 	/** @var string[] */
-	private $disabledWorlds = [];
+	private array $disabledWorlds = [];
 
-	/** @var bool */
-	private $useDefaultWorld = false;
+	private bool $useDefaultWorld = false;
 
 	public function onEnable() : void{
 		$this->enabledWorlds = $this->getConfig()->get("enabled-worlds");
